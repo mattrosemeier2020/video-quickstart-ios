@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     var accessToken = "TWILIO_ACCESS_TOKEN"
   
     // Configure remote URL to fetch token from
-    var tokenUrl = "http://localhost:8000/token.php"
+    var tokenUrl = "https://scarlet-chicken-9207.twil.io/video-token?"
     
     // Video SDK components
     var room: Room?
@@ -129,6 +129,7 @@ class ViewController: UIViewController {
         // If the default wasn't changed, try fetching from server.
         if (accessToken == "TWILIO_ACCESS_TOKEN") {
             do {
+                tokenUrl = tokenUrl + "identity=stan" + "\(arc4random())" + "&room=\(roomTextField.text ?? "")"
                 accessToken = try TokenUtils.fetchToken(url: tokenUrl)
             } catch {
                 let message = "Failed to fetch access token"
