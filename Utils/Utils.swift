@@ -23,9 +23,12 @@ struct TokenUtils {
         let requestURL: URL = URL(string: url)!
         do {
             let data = try Data(contentsOf: requestURL)
-            if let tokenReponse = String(data: data, encoding: String.Encoding.utf8) {
-                token = tokenReponse
-            }
+            guard let responseDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary else { return token }
+            
+            print(responseDictionary!)
+            
+            token = responseDictionary!["token"] as? String ?? ""
+            
         } catch let error as NSError {
             print ("Invalid token url, error = \(error)")
             throw error
